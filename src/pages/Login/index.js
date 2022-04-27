@@ -46,6 +46,7 @@ export default function Login({ navigation }) {
 
 
   return (
+    <Provider>
     <View style={styles.container}>
       
       <View style={styles.login}>
@@ -75,12 +76,7 @@ export default function Login({ navigation }) {
               </Button>
             </Card.Content>
           </Card>
-
-      </View>
-      
-        <Provider>
-          <View>
-            <Portal>
+          <Portal>
               <Dialog visible={visible} onDismiss={hideDialog}>
                 <Dialog.Title>Erro</Dialog.Title>
                 <Dialog.Content>
@@ -91,11 +87,12 @@ export default function Login({ navigation }) {
                 </Dialog.Actions>
               </Dialog>
             </Portal>
-          </View>
- 
-        </Provider>
+      </View>
+      
+
 
     </View>
+    </Provider>
   );
 }
 

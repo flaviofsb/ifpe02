@@ -61,11 +61,11 @@ export default function Cadastro({ navigation }) {
 const styles = StyleSheet.create({
 
   
-  lista:{
-    flex:1,
+  lista:{    
     backgroundColor:'#fff',
     margin:0,
-    padding:0
+    padding:0,
+    height:40,
   },
   container:{
     flex:1,

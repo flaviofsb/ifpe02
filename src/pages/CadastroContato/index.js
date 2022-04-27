@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TextInput, Avatar } from 'react-native-paper';
 import { Appbar, Button, Card, Portal, Dialog, Provider, Paragraph } from 'react-native-paper';
 import axios from 'axios';
+import Position from 'react-native/Libraries/Components/Touchable/Position';
 export default function CadastroContato({ navigation }) {
 
   const [visible, setVisible] = React.useState(false);
@@ -18,10 +19,10 @@ export default function CadastroContato({ navigation }) {
   const [cpf, setCpf] = useState("");
   const [mensagemCadastro, setMensagemCadastro] = useState("");
   const [tituloCadastro, setTituloCadastro] = useState("");
-    function cadastrar(){
+    async function cadastrar(){
       if (nome && telefone && cpf){
-          
-          axios.post('http://professornilson.com/testeservico/clientes', {
+          //axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+          await axios.post('http://professornilson.com/testeservico/clientes', {
             nome: nome,
             telefone: telefone,
             cpf: cpf
@@ -37,7 +38,7 @@ export default function CadastroContato({ navigation }) {
           .catch(function (error) {
             console.log(error);
             setTituloCadastro("Erro:");
-            setMensagemCadastro(error);
+            setMensagemCadastro(error + 'Erro ao realizar o cadastro.');
             showDialog()
           });     
       } else {               
@@ -50,6 +51,7 @@ export default function CadastroContato({ navigation }) {
 
 
   return (
+    <Provider>
     <View style={styles.container}>
       <Appbar.Header style={styles.cabecalho}>
         <Appbar.BackAction onPress={() =>                 
@@ -59,8 +61,19 @@ export default function CadastroContato({ navigation }) {
         
         <Appbar.Action />
       </Appbar.Header>
+      
       <View style={styles.login}>
-          
+            <Portal>
+              <Dialog visible={visible} onDismiss={hideDialog}>
+                <Dialog.Title>{tituloCadastro}</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph>{mensagemCadastro}</Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={hideDialog}>Ok</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
           <Card  style={styles.cartao}> 
             <Card.Content>
               <Text>Nome</Text>
@@ -78,7 +91,7 @@ export default function CadastroContato({ navigation }) {
               value={telefone} style={styles.campo}   />
 
               
-              <Button mode="contained" style={styles.btnLogin} onPress={() => cadastrar() }>
+              <Button mode="contained" type="button" style={styles.btnLogin} onPress={() => cadastrar() }>
               CADASTRAR
               </Button>
 
@@ -88,23 +101,9 @@ export default function CadastroContato({ navigation }) {
           </Card>
 
       </View>
-      <Provider>
-          <View>
-            <Portal>
-              <Dialog visible={visible} onDismiss={hideDialog}>
-                <Dialog.Title>{tituloCadastro}</Dialog.Title>
-                <Dialog.Content>
-                  <Paragraph>{mensagemCadastro}</Paragraph>
-                </Dialog.Content>
-                <Dialog.Actions>
-                  <Button onPress={hideDialog}>Ok</Button>
-                </Dialog.Actions>
-              </Dialog>
-            </Portal>
-          </View>
- 
-        </Provider>
+      
     </View>
+    </Provider>
   );
 }
 
@@ -116,14 +115,23 @@ const styles = StyleSheet.create({
       backgroundColor:'#38a69d',
       
     },
+    alerta:{
+      zIndex:999,
+      
+
+    },
+    provider:{ backgroundColor:'#f00',
+    position: 'absolute'},
     campo:{
       height:40,
       marginBottom:10
     },
     login: {
+      zIndex:1,
       alignItems: 'center',
       flex: 1,
-      paddingTop:0
+      paddingTop:0,
+      height:'100%'
     },
     cartao:{
       flex:1,
@@ -142,9 +150,11 @@ const styles = StyleSheet.create({
       color:'#FFF',
       backgroundColor:'blue',
       marginBottom:5,
+      zIndex:1
     },
     btnCadastre:{
       color:'#FFF',
-      backgroundColor:'red'
+      backgroundColor:'red',
+      zIndex:1
     },
   }) 

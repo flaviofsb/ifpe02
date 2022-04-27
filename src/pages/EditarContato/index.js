@@ -78,6 +78,9 @@ function excluir(){
  
 }
   return (
+    <Provider>
+          
+ 
     <View style={styles.container}>
       <Appbar.Header style={styles.cabecalho}>
         <Appbar.BackAction onPress={() =>                 
@@ -88,7 +91,17 @@ function excluir(){
         <Appbar.Action />
       </Appbar.Header>
       <View style={styles.login}>
-          
+      <Portal>
+              <Dialog visible={visible} onDismiss={hideDialog}>
+                <Dialog.Title>{tituloCadastro}</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph>{mensagemCadastro}</Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={hideDialog}>Ok</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
           <Card  style={styles.cartao}> 
             <Card.Content>
               <Text>Nome</Text>
@@ -115,23 +128,10 @@ function excluir(){
           </Card>
 
       </View>
-      <Provider>
-          <View>
-            <Portal>
-              <Dialog visible={visible} onDismiss={hideDialog}>
-                <Dialog.Title>{tituloCadastro}</Dialog.Title>
-                <Dialog.Content>
-                  <Paragraph>{mensagemCadastro}</Paragraph>
-                </Dialog.Content>
-                <Dialog.Actions>
-                  <Button onPress={hideDialog}>Ok</Button>
-                </Dialog.Actions>
-              </Dialog>
-            </Portal>
-          </View>
- 
-        </Provider>
+      
+        
     </View>
+    </Provider>
   );
 }
 

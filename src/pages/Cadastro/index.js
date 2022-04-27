@@ -52,6 +52,7 @@ export default function Cadastro({ navigation }) {
     }
 
   return (
+    <Provider>
     <View style={styles.container}>
       <Appbar.Header style={styles.cabecalho}>
         <Appbar.BackAction onPress={() =>                 
@@ -82,11 +83,7 @@ export default function Cadastro({ navigation }) {
 
             </Card.Content>
           </Card>
-
-      </View>
-      <Provider>
-          <View>
-            <Portal>
+          <Portal>
               <Dialog visible={visible} onDismiss={hideDialog}>
                 <Dialog.Title>Erro</Dialog.Title>
                 <Dialog.Content>
@@ -97,10 +94,13 @@ export default function Cadastro({ navigation }) {
                 </Dialog.Actions>
               </Dialog>
             </Portal>
-          </View>
+      </View>
+      
+
  
-        </Provider>
+       
     </View>
+    </Provider>
   );
 }
 
